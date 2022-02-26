@@ -18,7 +18,7 @@ const AuthLayout = () => {
           </Container>
         </Navbar>
       </Row>
-      <Row>
+      <Row className="mt-3">
         <Container fluid>
           <Outlet />
         </Container>

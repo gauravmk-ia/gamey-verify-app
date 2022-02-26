@@ -1,20 +1,39 @@
 import React, { useState } from 'react';
 import { Badge, Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useForm } from "react-hook-form";
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup";
 import "./index.css";
+
+const schema = yup.object({
+  firstName: yup.string().required(),
+  lastName: yup.string().required(),
+  email: yup.string().email().required(),
+  retypeEmail: yup.string().required(),
+  dob: yup.string().required(),
+  password: yup.string().required(),
+  gender: yup.string().required(),
+  age: yup.number().positive().integer().required(),
+}).required();
 
 function Register() {
 
   const [gender, setGender] = useState('');
 
+  const { register, handleSubmit, formState:{ errors } } = useForm({
+    resolver: yupResolver(schema)
+  });
+  const onSubmit = data => console.log(data);
+
   return (
     <Container fluid>
-      <Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Row>
           <Col>
             <Form.Group className="mb-3" controlId="firstName">
               <Form.Label className="required">First Name</Form.Label>
-              <Form.Control type="text" className="bg-light" />
+              <Form.Control type="text" className="bg-light" {...register("firstName")} />
             </Form.Group>
           </Col>
           <Col >
